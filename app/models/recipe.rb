@@ -1,7 +1,6 @@
 class Recipe < ApplicationRecord
     validates :title, presence: true
-    validates :type, presence: true
-    validates :cuisine, presence: true
+    validates :category, presence: true
     validates :total_time, presence: true
     validates :difficulty, presence: true
     validates :servings, presence: true
@@ -11,6 +10,9 @@ class Recipe < ApplicationRecord
     
     has_many :reviews, dependent: :destroy
     has_many :users, through: :reviews
-    # belongs_to :user
-    # belongs_to :owner, :class_name => "User"
+    has_many :bookmarks, dependent: :destroy
+
+    belongs_to :chef, class_name: "User"
+    # belongs_to :chef, class_name: "User", foreign_key: "chef_id"
+    # belongs_to :chef, class_name: "User", foreign_key: :user_id
 end

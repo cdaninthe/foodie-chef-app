@@ -26,15 +26,16 @@ ActiveRecord::Schema.define(version: 2023_05_15_223927) do
   create_table "recipes", force: :cascade do |t|
     t.string "title"
     t.string "image_url"
-    t.string "type"
-    t.string "cuisine"
+    t.string "category"
     t.integer "total_time"
     t.string "difficulty"
     t.integer "servings"
     t.text "ingredients"
     t.text "directions"
+    t.bigint "chef_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["chef_id"], name: "index_recipes_on_chef_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -53,4 +54,5 @@ ActiveRecord::Schema.define(version: 2023_05_15_223927) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "recipes", "users", column: "chef_id"
 end
