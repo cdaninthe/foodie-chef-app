@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from "react";
 import { Card } from "semantic-ui-react";
 import Review from "./Review";
 import { useParams } from "react-router-dom";
+import ReviewForm from "./ReviewForm";
 
 
 
@@ -68,10 +69,10 @@ function Reviews(){
     return(
         <div>
             <Card.Group itemsPerRow={1}>
-                {/* <ReviewForm 
-                    venueId={params.id}
+                <ReviewForm 
+                    recipeId={params.id}
                     onAddReview={handleAddReview}
-                /> */}
+                />
 
                 {reviews.map((review) => (
                     <Review

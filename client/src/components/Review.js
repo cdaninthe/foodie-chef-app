@@ -1,8 +1,11 @@
 import React, {useState, useContext} from "react";
 import { Card, Icon } from "semantic-ui-react";
+import UserContext from "./UserContext";
 
 
 function Review({review, onDeleteReview, onUpdateReview}){
+
+    const { user } = useContext(UserContext)
 
     const [commentHidden, setCommentHidden] = useState('')
     const [formHidden, setFormHidden] = useState('hidden')
@@ -39,7 +42,7 @@ function Review({review, onDeleteReview, onUpdateReview}){
                 </Card.Description>
             </Card.Content>
             <div>
-                {/* {user.id === review.user.id ? */}
+                {user.id === review.user.id ?
                     <div>
                         <Icon name='edit outline' onClick={handleEditClick}/>
                         <Icon name='trash alternate outline' onClick={() => onDeleteReview(review.id)}/>
@@ -58,8 +61,8 @@ function Review({review, onDeleteReview, onUpdateReview}){
                             <button type="submit">Update</button>
                         </form>
                     </div>
-                    {/* : null */}
-                {/* } */}
+                    : null
+                }
             </div>
         </Card>   
     );

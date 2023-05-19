@@ -6,6 +6,7 @@ import Reviews from "./Reviews";
 
 
 function RecipeCard({recipes}){
+    console.log(recipes)
 
     const [recipeCard, setRecipeCard] = useState([])
     const [showReviews, setShowReviews] = useState(false)
@@ -16,13 +17,16 @@ function RecipeCard({recipes}){
         const recipe = recipes.filter((recipe)=>(
             recipe.id == params.id
         ))
+        console.log(recipe)
         console.log(recipe[0])
-        setRecipeCard(recipe[0])
+        setRecipeCard([recipe[0]])
     }, [params.id]);
 
+
     function handleShowReviews(){
-    setShowReviews(!showReviews)
-    showReviewsBtn === "SHOW REVIEWS" ? setShowReviewsBtn("HIDE REVIEWS") : setShowReviewsBtn("SHOW REVIEWS")
+        console.log(recipeCard.id)
+        setShowReviews(!showReviews)
+        showReviewsBtn === "SHOW REVIEWS" ? setShowReviewsBtn("HIDE REVIEWS") : setShowReviewsBtn("SHOW REVIEWS")
     }
 
 
@@ -48,7 +52,7 @@ function RecipeCard({recipes}){
                     { showReviews ? 
                         <Card.Content>
                             <h3>Reviews:</h3>
-                            <Reviews recipeCard={recipeCard} setRecipeCard={setRecipeCard}/>
+                            <Reviews />
                         </Card.Content>
                     : null}
                 </Card>
