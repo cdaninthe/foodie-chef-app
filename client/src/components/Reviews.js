@@ -3,10 +3,12 @@ import { Card } from "semantic-ui-react";
 import Review from "./Review";
 import { useParams } from "react-router-dom";
 import ReviewForm from "./ReviewForm";
+import UserContext from "./UserContext";
 
 
 
 function Reviews(){
+    const { user, setUser } = useContext(UserContext)
 
     const params = useParams()
     const [reviews, setReviews] = useState([])    
@@ -18,7 +20,9 @@ function Reviews(){
     }, [params.id]);
 
     function handleAddReview(newReview){
-        setReviews([newReview, ...reviews])        
+        setReviews([newReview, ...reviews])    
+        const userReviews = [...user.reviews, newReview]
+        setUser({...user, reviews: userReviews})   
     }
 
     function handleDeleteReview(reviewId){
@@ -28,6 +32,11 @@ function Reviews(){
             if(res.ok){
                 setReviews(
                     reviews.filter((review) => {
+                        return review.id !== reviewId
+                    })
+                )
+                setUser(
+                    user.reviews.filter((review) => {
                         return review.id !== reviewId
                     })
                 )

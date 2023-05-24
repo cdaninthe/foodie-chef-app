@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Card } from "semantic-ui-react";
 import Recipe from "./Recipe";
+import RecipeContext from "./RecipeContext";
 
-
-function Recipes({recipes}){
-
+function Recipes(){
+ 
+    const {recipes} = useContext(RecipeContext)
 
     return(
         <Card.Group itemsPerRow={4}>

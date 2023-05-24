@@ -26,3 +26,19 @@ button {
   color: red;
   background-color: yellow;
 }
+
+.bookmark {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  font-size: 16px;
+  width: 250px;
+
+}
+
+.title {
+  color: orange;
+  background-color: cornsilk;
+}

@@ -20,7 +20,7 @@ function NavBar(){
     return (
         <div>
             <h3 className="nav">Hello {user.username} | 
-            <NavLink exact to="/"> Recipes |</NavLink>
+            <NavLink exact to="/recipes"> Recipes |</NavLink>
             <NavLink exact to="/account">  My Account  |</NavLink>
             <span onClick={handleLogout}> Log Out</span>
             </h3>

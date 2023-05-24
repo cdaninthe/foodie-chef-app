@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useMemo} from 'react';
 import '../App.css';
-import { Switch, Route } from "react-router-dom";
+// import { Switch, Route } from "react-router-dom";
 import Header from './Header';
 import NavBar from './NavBar';
 import Recipes from './Recipes';
@@ -8,11 +8,13 @@ import RecipeCard from './RecipeCard';
 import Login from './Login';
 import UserContext from './UserContext';
 import Account from './Account';
+import {RecipeProvider} from './RecipeProvider';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
   
   const [user, setUser] = useState(null);
-  const [recipes, setRecipes] = useState([])
+  // const [recipes, setRecipes] = useState([])
 
   const value = useMemo(
     () => ({ user, setUser }), 
@@ -35,14 +37,14 @@ function App() {
     });
   }, []);
 
-  useEffect(()=>{
-    fetch(`/recipes`)
-    .then((r)=> r.json())
-    .then((recipes)=> {
-        setRecipes(recipes)
-        console.log(recipes)
-    })
-  },[])
+  // useEffect(()=>{
+  //   fetch(`/recipes`)
+  //   .then((r)=> r.json())
+  //   .then((recipes)=> {
+  //     setRecipes(recipes)
+  //     console.log(recipes)
+  //   })
+  // },[])
 
 
 
@@ -51,22 +53,32 @@ function App() {
     <Header/>
 
     { !user ? <Login onLogin={setUser} /> : 
-      <div> 
-        <UserContext.Provider value={value}>
-          <NavBar />
-          <br />
-          <Switch>
-            <Route exact path="/">
-              <Recipes recipes={recipes}/>
-            </Route>
-            <Route exact path="/account">
-              <Account recipes={recipes} setRecipes={setRecipes}/>
-            </Route>
-            <Route path="/recipes/:id">
-              <RecipeCard recipes={recipes}/>
-            </Route>
-          </Switch> 
-        </UserContext.Provider>
+      <div>
+        <Router>
+          <UserContext.Provider value={value}>
+            <RecipeProvider>
+              <NavBar />
+              <br />
+              <Switch>
+                <Route exact path="/">
+                  <Recipes />
+                </Route>
+                
+                <Route exact path="/account">
+                  <Account />
+                </Route>
+                <Route exact path="/recipes">
+                  <Recipes />
+                </Route>
+                <Route path="/recipes/:id">
+                  <RecipeCard />
+                </Route>
+                
+              </Switch> 
+            </RecipeProvider>
+          </UserContext.Provider>
+        </Router> 
+        
         
       </div>
     }
