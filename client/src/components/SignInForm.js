@@ -15,6 +15,7 @@ function SignInForm({handleLoginClick, onLogin}) {
         }).then(res => {
             if(res.ok){
                 res.json().then((user) => {
+                    window.localStorage.setItem('user', JSON.stringify(user));
                     onLogin(user)
                 })
             } else{

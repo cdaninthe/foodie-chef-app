@@ -9,6 +9,7 @@ import UserContext from "./UserContext";
 
 function Reviews(){
     const { user, setUser } = useContext(UserContext)
+    console.log({user})
 
     const params = useParams()
     const [reviews, setReviews] = useState([])    
@@ -20,6 +21,10 @@ function Reviews(){
     }, [params.id]);
 
     function handleAddReview(newReview){
+        console.log('reviews', reviews)
+        console.log('new review', newReview)
+        console.log('user', user)
+
         setReviews([newReview, ...reviews])    
         const userReviews = [...user.reviews, newReview]
         setUser({...user, reviews: userReviews})   
@@ -35,11 +40,11 @@ function Reviews(){
                         return review.id !== reviewId
                     })
                 )
-                setUser(
-                    user.reviews.filter((review) => {
-                        return review.id !== reviewId
-                    })
-                )
+
+                const userReviews = user.reviews.filter((review) => {
+                    return review.id !== reviewId
+                })
+                setUser({...user, reviews: userReviews})
             }
         })
     }
@@ -70,6 +75,16 @@ function Reviews(){
                     })
                     return updatedReviews;
                 })
+
+                const updatedReviews = user.reviews.map((review) => {
+                    if (review.id === reviewId) {
+                        review.comment = comment;
+                        review.rating = rating
+                    }
+                    return review;
+                });
+               
+                setUser({ ...user, reviews: updatedReviews });
             }
         })
     }

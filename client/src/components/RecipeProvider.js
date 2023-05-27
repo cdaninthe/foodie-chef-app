@@ -3,7 +3,10 @@ import RecipeContext from './RecipeContext';
 import { useParams } from 'react-router-dom';
 
 const RecipeProvider = ({ children }) => {
-  const [recipes, setRecipes] = useState([]);
+  const localStorageRecipes = window.localStorage.getItem('recipes') 
+  const recipesValue = JSON.parse(localStorageRecipes) || [];
+  const [recipes, setRecipes] = useState(recipesValue);
+  
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const params = useParams()
@@ -12,6 +15,7 @@ const RecipeProvider = ({ children }) => {
   useEffect(() => {
     fetch('/recipes')
       .then(response => {
+        console.log({response})
         if (response.ok) {
           return response.json();
         } else {
@@ -19,6 +23,9 @@ const RecipeProvider = ({ children }) => {
         }
     })
     .then(data => {
+      console.log({data})
+      window.localStorage.setItem('recipes', JSON.stringify(data));
+
       setRecipes(data);
       setIsLoading(false);
     })

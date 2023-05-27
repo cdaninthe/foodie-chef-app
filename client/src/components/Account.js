@@ -17,8 +17,7 @@ function Account(){
     const [userReviews, setUserReviews] = useState([]);
     const [userChefRecipes, setUserChefRecipes] = useState([]);
     const [userBookmarks, setUserBookmarks] = useState([]);
-    const [recipeFormHidden, setRecipeFormHidden] = useState('hidden')
-    const [recipeEditFormHidden, setRecipeEditFormHidden] = useState('hidden')
+    const [recipeFormHidden, setRecipeFormHidden] = useState('hidden')    
 
     useEffect(() => {
         console.log(user)
@@ -28,19 +27,17 @@ function Account(){
         setUserChefRecipes(user.chef_recipes)
         setUserReviews(user.reviews) 
         setUserBookmarks(user.bookmarks)
-    }, []);
+    });
 
     
 
     function addNewRecipe(newRecipe){
-        // setUserVenues((venues) => [formData, ...venues])
-        // setUserVenues([...userVenues, formData])
         setUserChefRecipes([...userChefRecipes, newRecipe])
         setRecipes([...recipes, newRecipe])
         const chefRecipes = [...user.chef_recipes, newRecipe]
         setUser({...user, chef_recipes: chefRecipes})
 
-        history.push('/')
+        // history.push('/')
     }
 
     function handleDeleteRecipe(recipeId){
@@ -58,82 +55,16 @@ function Account(){
                         return recipe.id !== recipeId
                     })
                 )
-                setUser(
-                    user.chef_recipes.filter((recipe) => {
-                        return recipe.id !== recipeId
-                    })
-                )
 
+                const userRecipes = user.chef_recipes.filter((recipe) => {
+                    return recipe.id !== recipeId
+                })
+                setUser({...user, chef_recipes: userRecipes})
             }
         })
     }
 
-    function handleUpdateRecipe (recipeId, recipeObj){
-        console.log(recipeId, recipeObj)
-        fetch(`/recipes/${recipeId}`, {
-            method: "PATCH",
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({
-                title: recipeObj.title,
-                category: recipeObj.category,
-                total_time: recipeObj.total_time,
-                difficulty: recipeObj.difficulty,
-                servings: recipeObj.servings,
-                ingredients: recipeObj.ingredients,
-                directions: recipeObj.directions,
-                image_url: recipeObj.image_url
-            })
-        }).then(res => {
-            if(!res.ok){
-                res.json().then((err) =>{
-                    setErrors(err.errors)
-                    // alert(err.errors)
-                    // return userChefRecipes;
-                })
-            }else{
-                res.json().then((updatedRecipe) => {
-                    console.log(updatedRecipe)
-
-                    setRecipeEditFormHidden('hidden')
-
-                    setUserChefRecipes((recipes) => {
-                        const updatedRecipes = recipes.map(recipe => {
-                            if(recipe.id === recipeId){
-                               recipe = updatedRecipe
-                               console.log(recipe)
-                            }
-                            return recipe;
-                        })
-                        return updatedRecipes;
-                    })
-
-                    setRecipes((recipes) => {
-                        const updatedRecipes = recipes.map(recipe => {
-                            if(recipe.id === recipeId){
-                               recipe = updatedRecipe
-                               console.log(recipe)
-                            }
-                            return recipe;
-                        })
-                        return updatedRecipes;
-                    })
-
-                    setUser((recipes) => {
-                        const updatedRecipes = recipes.map(recipe => {
-                            if(recipe.id === recipeId){
-                            recipe = updatedRecipe
-                            }
-                            return recipe;
-                        })
-                        return updatedRecipes;
-                    })
-                })
-                
-                
-                
-            }
-        })
-    }
+       
     
     function handleAddClick(){
         setRecipeFormHidden('')
@@ -144,16 +75,16 @@ function Account(){
             method: "DELETE",
         }).then(res => {
             if(res.ok){
-                setUser(
-                    user.bookmarks.filter((bookmark) => {
-                        return bookmark.id !== bookmarkId
-                    })
-                )
                 setUserBookmarks(
                     userBookmarks.filter((bookmark) => {
                         return bookmark.id !== bookmarkId
                     })
                 )
+
+                const bookmarks = user.bookmarks.filter((bookmark) => {
+                    return bookmark.id !== bookmarkId
+                })
+                setUser({...user, bookmarks: bookmarks})
             }
         })
     }
@@ -195,7 +126,7 @@ function Account(){
                 <Card>
                     <div>
                         <h2>My Bookmarks</h2>
-                        {userBookmarks.map((bookmark) => (
+                        {userBookmarks?.map((bookmark) => (
                             <Bookmark 
                                 key={bookmark.id} bookmark={bookmark}
                                 onDeleteBookmark={handleDeleteBookmark} 
@@ -213,12 +144,12 @@ function Account(){
                         </div>
                         <br /><br />
     
-                        {userChefRecipes.map((recipe) => (
+                        {userChefRecipes?.map((recipe) => (
                             <ChefRecipe key={recipe.id} recipe={recipe}
                                 onDeleteRecipe={handleDeleteRecipe}
-                                onUpdateRecipe={handleUpdateRecipe}
-                                recipeEditFormHidden={recipeEditFormHidden} setRecipeEditFormHidden={setRecipeEditFormHidden}
-                                errors={errors}
+                                errors={errors} setErrors={setErrors}
+                                setUserChefRecipes={setUserChefRecipes}
+                                userChefRecipes={userChefRecipes}
                             />
                         ))}
                     </div>
@@ -226,9 +157,9 @@ function Account(){
                 <Card>
                     <div>
                         <h2>My Reviews</h2>
-                        {userReviews.map((review) => (
+                        {userReviews?.map((review) => (
                             <Card  color='orange' key={review.id}>
-                                <h4 onClick={() => history.push(`/recipes/${review.recipe_id}`)} className="title">
+                                <h4 onClick={() => history.push(`/recipes/${review.recipe.id}`)} className="title">
                                     {review.recipe.title}
                                 </h4>
                                 <span>Rating: {review.rating}/5</span>
