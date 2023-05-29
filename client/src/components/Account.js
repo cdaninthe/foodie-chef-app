@@ -20,10 +20,6 @@ function Account(){
     const [recipeFormHidden, setRecipeFormHidden] = useState('hidden')    
 
     useEffect(() => {
-        console.log(user)
-        console.log(user.reviews)
-        console.log(user.chef_recipes)
-        console.log(user.bookmarks)
         setUserChefRecipes(user.chef_recipes)
         setUserReviews(user.reviews) 
         setUserBookmarks(user.bookmarks)

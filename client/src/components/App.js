@@ -17,24 +17,10 @@ function App() {
 
   const value = useMemo(() => ({ user, setUser }), [user]);
 
-  // useEffect(() => {
-  //   const localStorageUser = window.localStorage.getItem("user");
-  //   if (localStorageUser) {
-  //     const user = JSON.parse(localStorageUser);
-  //     setUser({
-  //       id: user.id,
-  //       username: user.username,
-  //       bookmarks: user.bookmarks,
-  //       reviews: user.reviews,
-  //       chef_recipes: user.chef_recipes,
-  //     });
-  //   }
-  // }, []);
 
   useEffect(() => {
     // auto-login
     fetch("/me").then((r) => {
-      console.log(r)
       if (r.ok) {
         r.json().then((user) => setUser({
           id: user.id,

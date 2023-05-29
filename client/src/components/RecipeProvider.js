@@ -15,7 +15,6 @@ const RecipeProvider = ({ children }) => {
   useEffect(() => {
     fetch('/recipes')
       .then(response => {
-        console.log({response})
         if (response.ok) {
           return response.json();
         } else {
@@ -23,8 +22,7 @@ const RecipeProvider = ({ children }) => {
         }
     })
     .then(data => {
-      console.log({data})
-      window.localStorage.setItem('recipes', JSON.stringify(data));
+      // window.localStorage.setItem('recipes', JSON.stringify(data));
 
       setRecipes(data);
       setIsLoading(false);
@@ -33,7 +31,7 @@ const RecipeProvider = ({ children }) => {
       setError(error.message);
       setIsLoading(false);
     });
-}, [id]); // Empty array means this effect runs once when the component mounts
+}, [id]);
 
 return (
   <RecipeContext.Provider value={{ recipes, setRecipes, isLoading, error }}>

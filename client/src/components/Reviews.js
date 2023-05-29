@@ -9,8 +9,6 @@ import UserContext from "./UserContext";
 
 function Reviews(){
     const { user, setUser } = useContext(UserContext)
-    console.log({user})
-
     const params = useParams()
     const [reviews, setReviews] = useState([])    
 
@@ -21,11 +19,7 @@ function Reviews(){
     }, [params.id]);
 
     function handleAddReview(newReview){
-        console.log('reviews', reviews)
-        console.log('new review', newReview)
-        console.log('user', user)
-
-        setReviews([newReview, ...reviews])    
+       setReviews([newReview, ...reviews])    
         const userReviews = [...user.reviews, newReview]
         setUser({...user, reviews: userReviews})   
     }

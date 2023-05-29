@@ -5,7 +5,7 @@ import Reviews from "./Reviews";
 import RecipeContext from "./RecipeContext";
 import UserContext from "./UserContext";
 
-// const RecipeCard = () => {
+
 function RecipeCard() {
     const params = useParams();
     
@@ -24,20 +24,12 @@ function RecipeCard() {
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        // if (recipes) {
         const recipe = recipes.filter(
         (recipe) => recipe.id === parseInt(params.id)
         );
-        console.log({ recipe });
         setRecipeCard(recipe[0]);
-        // }
     }, [recipes, params.id]);
 
-    //   useEffect(() => {
-    //     fetch(`/recipes/${params.id}`)
-    //         .then((r) => r.json())
-    //         .then(setRecipeCard);
-    //   }, [params.id]);
 
     function handleShowReviews() {
         setShowReviews(!showReviews);
